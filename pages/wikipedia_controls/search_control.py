@@ -5,11 +5,12 @@ from pages.page import Page
 
 class SearchControl(Page):
 
-    def search(self, search_term):
-        search_field = self.selenium.find_visible_element(SearchControlLocators.SEARCH_FIELD)
+    def __init__(self):
+        self.search_field = self.selenium.find_visible_element(SearchControlLocators.SEARCH_FIELD)
 
-        search_field.send_keys(search_term)
-        search_field.send_keys(Keys.ENTER)
+    def search(self, search_term):
+        self.search_field.send_keys(search_term)
+        self.search_field.send_keys(Keys.ENTER)
 
 
 class SearchControlLocators(object):

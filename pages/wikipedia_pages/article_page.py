@@ -5,7 +5,7 @@ from pages.page import Page
 class ArticlePage(Page):
 
     def __init__(self, selenium):
-        super(ArticlePage, self).__init__(selenium)
+        super().__init__(selenium)
 
         article_header = self.selenium.find_visible_element(ArticlePageLocators.ARTICLE_HEADER)
         self.title = article_header.text

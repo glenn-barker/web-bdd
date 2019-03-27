@@ -1,7 +1,6 @@
-from behave import fixture, use_fixture
+from behave import fixture
 from behave.fixture import use_fixture_by_tag
 from selenium import webdriver
-# from framework.selenium_helpers.extended_webdriver import ExtendedWebDriver
 from framework.selenium_helpers.selenium_wrapper import SeleniumWrapper
 
 

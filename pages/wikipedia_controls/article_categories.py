@@ -5,7 +5,7 @@ from pages.page import Page
 class ArticleCategories(Page):
 
     def __init__(self, selenium):
-        super(ArticleCategories, self).__init__(selenium)
+        super().__init__(selenium)
 
         categories_container = self.selenium.find_visible_element(ArticleCategoriesLocator.CATEGORIES_CONTAINER)
         category_items = categories_container.find_elements(By.TAG_NAME, 'li')
