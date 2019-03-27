@@ -15,6 +15,12 @@ def step_impl(context, category):
     article_categories.click(category)
 
 
+@then(u'the {page_name} Wikipedia page should be open')
+def step_impl(context, page_name):
+    article_page = ArticlePage(context.selenium)
+    article_page.verify_title_equals(page_name)
+
+
 @then(u'the following Wikipedia categories should be available')
 def step_impl(context):
     expected_categories = [table_row['Category'] for table_row in context.table]

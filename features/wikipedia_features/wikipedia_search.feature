@@ -1,4 +1,4 @@
-@fixture.browser
+@fixture.browser @wikipedia @search
 Feature: Wikipedia Search Functionality
   As an automation engineer,
   In order to demonstrate basic BDD automation practices with Behave + Selenium,

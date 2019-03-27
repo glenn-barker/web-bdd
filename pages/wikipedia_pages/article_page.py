@@ -12,7 +12,7 @@ class ArticlePage(Page):
 
     def verify_title_equals(self, article_title):
         assert self.title == article_title, \
-            f"The article on {self.selenium.driver.current_url} is {self.title} instead of {article_title}"
+            f"The {self.title} article is open instead of {article_title}"
 
     def click_first_link(self):
         article_body_links = self.selenium.find_visible_elements(ArticlePageLocators.ARTICLE_BODY_LINKS)

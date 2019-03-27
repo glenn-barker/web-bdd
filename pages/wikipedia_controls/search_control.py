@@ -5,7 +5,9 @@ from pages.page import Page
 
 class SearchControl(Page):
 
-    def __init__(self):
+    def __init__(self, selenium):
+        super().__init__(selenium)
+
         self.search_field = self.selenium.find_visible_element(SearchControlLocators.SEARCH_FIELD)
 
     def search(self, search_term):

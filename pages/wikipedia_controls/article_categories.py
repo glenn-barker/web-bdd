@@ -15,7 +15,8 @@ class ArticleCategories(Page):
 
     def verify_exists(self, categories):
         missing_categories = [category for category in categories if category not in self.category_names]
-        assert not missing_categories, f"The following expected article categories are missing: {missing_categories}"
+        assert not missing_categories, \
+            f"The following expected article categories are missing: {', '.join(missing_categories)}"
 
     def click(self, category):
         self.verify_exists([category])
