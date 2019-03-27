@@ -1,4 +1,4 @@
-@fixture.browser.chrome
+@fixture.browser
 Feature: Wikipedia Search Functionality
   As an automation engineer,
   In order to demonstrate basic BDD automation practices with Behave + Selenium,
@@ -14,7 +14,7 @@ Feature: Wikipedia Search Functionality
     Then the Cucumber (software) Wikipedia page should be open
 
 
-  Scenario: Searching for an article based on a shorter name will redirect to the full article
+  Scenario: Searching for an article based on a shorter name will redirect to the full article title
     When the user searches Wikipedia for: python language
     Then the Python (programming language) Wikipedia page should be open
 

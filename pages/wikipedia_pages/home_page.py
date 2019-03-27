@@ -7,6 +7,7 @@ class HomePage(Page):
 
     def visit(self):
         self.selenium.driver.get(HomePage.PAGE_URL)
+        self.verify_is_loaded()
 
     def verify_is_loaded(self):
         self.selenium.load_wait.until(

@@ -8,7 +8,6 @@ from pages.wikipedia_controls.search_control import SearchControl
 def step_impl(context):
     home_page = HomePage(context.selenium)
     home_page.visit()
-    home_page.verify_is_loaded()
 
 
 @when(u'the user searches Wikipedia for: {search_term}')

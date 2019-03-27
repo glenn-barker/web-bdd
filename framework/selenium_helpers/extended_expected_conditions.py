@@ -21,8 +21,7 @@ class visibility_of_any_element_located(object):
 
     def __call__(self, driver):
         try:
-            elements = _find_elements(driver, self.locator)
-            visible_elements = [element for element in elements if element.is_displayed()]
+            visible_elements = _find_visible_elements(driver, self.locator)
             if visible_elements:
                 return visible_elements[0]
             else:
@@ -64,5 +63,14 @@ def _find_element(driver, by):
 def _find_elements(driver, by):
     try:
         return driver.find_elements(*by)
+    except WebDriverException as e:
+        raise e
+
+
+def _find_visible_elements(driver, by):
+    try:
+        elements = driver.find_elements(*by)
+        visible_elements = [element for element in elements if element.is_displayed()]
+        return visible_elements
     except WebDriverException as e:
         raise e

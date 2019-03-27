@@ -1,7 +1,8 @@
 from behave import fixture, use_fixture
 from behave.fixture import use_fixture_by_tag
 from selenium import webdriver
-from framework.selenium.selenium_wrapper import SeleniumWrapper
+# from framework.selenium_helpers.extended_webdriver import ExtendedWebDriver
+from framework.selenium_helpers.selenium_wrapper import SeleniumWrapper
 
 
 @fixture
@@ -13,7 +14,14 @@ def selenium_browser_chrome(context):
     context.selenium.driver.quit()
 
 
+@fixture
+def selenium_browser(context):
+    # TODO: Add logic here to return one of several possible generator types for different browsers read from a config.
+    yield from selenium_browser_chrome(context)
+
+
 fixture_registry = {
+    "fixture.browser": selenium_browser,
     "fixture.browser.chrome": selenium_browser_chrome,
 }
 
@@ -21,7 +29,3 @@ fixture_registry = {
 def before_tag(context, tag):
     if tag.startswith("fixture."):
         return use_fixture_by_tag(tag, context, fixture_registry)
-
-
-# def before_scenario(context, scenario):
-#     use_fixture(selenium_browser_chrome, context)
