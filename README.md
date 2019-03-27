@@ -72,7 +72,7 @@ Test cases themselves in a BDD framework are always provided as "scenarios" whic
 mandates a very specific folder structure that this framework complies with. Every single feature and scenario lives
 within the root-level `/features/` directory or any subdirectory therein.
 
-As a best practise, your test suites should be logically divided into broad feature areas, with each feature containing
+As a best practice, your test suites should be logically divided into broad feature areas, with each feature containing
 specific granular scenarios that represent specific use cases or key areas of functionality. The steps within a
 scenario should be written in a high-level language that does not get overly bogged down in technical details.
 
