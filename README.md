@@ -12,32 +12,28 @@ BDD framework for web-based test automation with Python.
 
 ## Install
 
-1. Clone or fork this repo:
+Clone or fork this repo, create & activate a new Python virtual environment (*recommended, not required.*), and
+install the required modules.
 
-   `$ git clone https://github.com/glenn-barker/web-bdd.git`
+### Windows:
+```
+$ git clone https://github.com/glenn-barker/web-bdd.git
+$ cd web-bdd
+$ virtualenv .env && .env\scripts\activate
+$ pip install -r requirements.txt
+```
 
-2. Create and activate a new Python virtual environment: (*Recommended, not required.*)
+### *Nix:
+```
+$ git clone https://github.com/glenn-barker/web-bdd.git
+$ cd web-bdd
+$ virtualenv .env && source .env/bin/activate
+$ pip install -r requirements.txt
+```
 
-   * Windows:
-   
-      ```
-      $ cd web-bdd
-      $ virtualenv .env && .env\scripts\activate
-      ```
-      
-   * *nix:
-    
-      ```
-      $ cd web-bdd
-      $ virtualenv .env && source .env/bin/activate
-      ```
+## Running
 
-3. Install the required modules:
+Kick off the sample web automation provided once installation is complete. You should see several web browsers open
+and run a set of simple scripts that navigate around Wikipedia: 
 
-   ```
-   $ pip install -r requirements.txt
-   ```
-
-4. Run the `behave` scenarios to kick off the sample web automation:
-
-   `$ behave`
+`$ behave`
