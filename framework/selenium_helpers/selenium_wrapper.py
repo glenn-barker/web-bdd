@@ -4,15 +4,15 @@ from framework.selenium_helpers import extended_expected_conditions as EEC
 
 class SeleniumWrapper:
 
-    IMPLICIT_WAIT = 10
-    LOAD_WAIT = 60
+    def __init__(self, context, driver):
+        element_timeout = context.config.userdata.getint("element_timeout", 10)
+        page_timeout = context.config.userdata.getint("page_timeout", 60)
 
-    def __init__(self, driver):
         self.driver = driver
-        self.driver.implicitly_wait(SeleniumWrapper.IMPLICIT_WAIT)
+        self.driver.implicitly_wait(element_timeout)
 
-        self.wait = WebDriverWait(self.driver, SeleniumWrapper.IMPLICIT_WAIT)
-        self.load_wait = WebDriverWait(self.driver, SeleniumWrapper.LOAD_WAIT)
+        self.wait = WebDriverWait(self.driver, element_timeout)
+        self.load_wait = WebDriverWait(self.driver, page_timeout)
 
     def find_visible_element(self, by, error_message=''):
         element = self.wait.until(EEC.visibility_of_any_element_located(by), error_message)

@@ -1,0 +1,5 @@
+{
+  "browser":          "chrome",
+  "element_timeout":  10,
+  "page_timeout":     60
+}
