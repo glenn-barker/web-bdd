@@ -15,9 +15,8 @@ built and jump off from there to write your own web-bdd test automation for what
 
 ## Pre-requisites
 1. Python 3.7
-2. `pip` for managing and installing Python packages.
-3. `pip install pipenv` for managing virtual environment and package installation.
-4. Currently, the web drivers required by Selenium (e.g. `chromedriver.exe`) are not packaged or included here,
+2. `pip install pipenv` for package installation and virtual environment management.
+3. Currently, the web drivers required by Selenium (e.g. `chromedriver.exe`) are not packaged or included here,
    so you will need to provide these yourself and ensure they are in a location that is accessible. (I.E.
    they are in your `PATH`.)
    
@@ -36,36 +35,34 @@ $ pipenv install
 ```
 
 ## Running
-Kick off the sample web automation provided once installation is complete. You should see several web browsers open
-and run a set of simple scripts that navigate around Wikipedia: 
+Kick off the sample web automation provided:
 
 `$ pipenv run behave`
 
+You should see a Chrome browser open up, navigate around Wikipedia, and close. This process will repeat a few times as
+each test feature is iterated through, and the final test summary will be displayed at the end.
+
 ## The Framework
-Below is a brief overview of some of the different parts of this framework, how things are organized and managed over
-the course of a test execution, a few commonly pain points and areas that have already been abstracted away for you,
-and other useful information you should probably keep in mind. 
+Below is a brief overview of some of the different parts of this framework, including how the code is organized and how
+common data structures and references are managed throughout test execution.
 
 ### BDD
 [behave](https://github.com/behave/behave) is the module this framework uses for its behavior-driven development test
-implementation. It's listed in the `requirements.txt` so should automatically be installed when you follow the provided
-installation instructions.
-
-Be sure to [read the behave docs](https://behave.readthedocs.io/en/latest/) so you know the basics of how `behave`
-expects things to be organized and also so you know how to kick off and run your test scenarios.
+implementation. Be sure to [read the behave docs](https://behave.readthedocs.io/en/latest/) so you know the basics of
+how `behave` expects things to be organized and also so you know how to kick off and run your test scenarios.
 
 #### Test Scenarios
 Test cases themselves in a BDD framework are always provided as "scenarios" which exist within "features". `behave`
 mandates a very specific folder structure that this framework complies with. Every single feature and scenario lives
 within the root-level `/features/` directory or any subdirectory therein.
 
-As a best practice, your test suites should be logically divided into broad feature areas, with each feature containing
-specific granular scenarios that represent specific use cases or key areas of functionality. The steps within a
-scenario should be written in a high-level language that does not get overly bogged down in technical details.
-
 In the examples provided here, you can find two feature files within `/features/wikipedia_features/`. Each
 of these feature files contains one-or-more scenarios that correspond to the actual test cases that are executed when
 you run tests with `behave`.
+
+>As a best practice, your test suites should be logically divided into broad feature areas, with each feature containing
+specific granular scenarios that represent specific use cases or key areas of functionality. The steps within a
+scenario should be written in a high-level language that does not get overly bogged down in technical details.
 
 #### Step Definitions
 Every step of a test scenario begins with `Given`, `When`, or `Then`. (Some additional keywords like `And` & `But`
@@ -75,22 +72,22 @@ The code that is actually executed for each step is declared in a step definitio
 in this regard and mandates that all step definitions exist *directly* under the `/features/steps/` directory. Unlike
 with feature files, step definitions *cannot* exist within deeper subdirectories.
 
-As a best practice, step definitions should be written as concisely as possible, ideally containing nothing more than
-simple class instantiations and function calls. Complex test and functional logic should not be written directly within
-the step definition and should instead be abstracted away.
-
 If you look within the `/features/steps/` directory you will see two `wikipedia_*_steps.py` modules which contain all
 of the step definitions used for the two example Wikipedia feature files.
+
+>As a best practice, step definitions should be written as concisely as possible, ideally containing nothing more than
+simple class instantiations and function calls. Complex test and functional logic should not be written directly within
+the step definition and should instead be abstracted away.
 
 #### Test Setup and Fixtures
 The `/features/environment.py` module should contain all of the setup and teardown logic that needs to execute for
 the test framework. Things such as creating/destroying web browser instances, reading config files, generating mock
 test data, etc. should be defined here.
 
-`fixtures` are used for this process, and they can either be coded to always be used or to only be used when certain
-`@tags` are specified within the test scenarios or features. In this example framework, the logic for constructing and
-destroying a web browser instance using `Selenium` is activated by tagging any scenario or feature with the
-`@fixture.browser` tag, and this logic is defined here.
+[fixtures](https://behave.readthedocs.io/en/latest/fixtures.html) are used for this process, and they can either be
+coded to always be used or to only be used when certain `@tags` are specified within the test scenarios or features.
+In this example framework, the logic for constructing and destroying a web browser instance using `Selenium` is
+activated by tagging any scenario or feature with the `@fixture.browser` tag, and this logic is defined here.
 
 #### Framework Regression
 Frankly, it's not enough to just write some functional automation logic for your steps and call it a day. An automation
@@ -101,17 +98,15 @@ test scenarios against your own code to verify that your test logic can fail and
 circumstances.
 
 A few steps and some use case examples have already been provided around this area.
-`/features/framework_regression_features/` contains a single feature file with some scenarios that intentionally induce
-test failures so that we can verify that our tests generate proper test failures. A few special step definitions are
-used to capture and validate the assertion errors thrown by arbitrary scenarios, and you can find the appropriate step
-definitions under the `/features/steps/` directory.
+`/features/framework_regression_features/` contains a single feature file with some scenarios that intentionally
+"incorrect" results so that we can verify that our tests generate proper test failures. A few special step definitions
+are used to capture and validate the assertion errors thrown by arbitrary scenarios, and you can find the appropriate
+step definitions under the `/features/steps/` directory.
 
 ### Selenium
-[Selenium WebDriver](https://pypi.org/project/selenium/) is the module used for browser UI automation. It's listed in
-the `requirements.txt` so should automatically be installed when you follow the provided installation instructions.
-
-As mentioned earlier, you will still need to download the web drivers for your specific browser choice(s) yourself and
-ensure they are available in your `PATH` environment variable.
+[Selenium WebDriver](https://pypi.org/project/selenium/) is the module used for browser UI automation. As mentioned
+earlier, you will need to download the web drivers for your specific browser choice(s) yourself and ensure they are
+available in your `PATH` environment variable.
 
 #### Browser Instantiation and Teardown
 As listed above, all setup & teardown logic should happen in the `/features/environment.py` module using test
@@ -123,22 +118,12 @@ directly, we create and store a new `SeleniumWrapper` object and pass that aroun
 `SeleniumWrapper` contains a reference to the underlying Selenium `driver` but also contains a number of other helpful
 fields and functions which are described later.
 
-When and how often you create / destroy your browsers is really up to you and dependent on your specific use cases and
-your application under test. For performance reasons, it might make sense to open a single browser at the very start of
-a test run and execute every scenario and feature within a single browser instance. For cases when it's critical that
-every scenario runs totally in isolation with no chance of old cache/cookies impacting another scenario, it may be
-prudent to create and destroy a browser instance for every single scenario.
-
-In this example framework, browser fixtures are controlled via the `@fixture.browser` tag, so when and where the
-fixtures are created and destroyed is dictated by the usage of this tag. The example features provided around Wikipedia
-automation all provide this tag on the feature level, meaning that every feature file will create and destroy its own
-browser instance but each scenario within that feature will execute in sequence using the same window.
-
-In an automation framework where you may have a mixture of UI (Selenium browser) and non-UI (API / DB / etc.) tests,
-it probably makes sense to use this kind of mechanism of allowing `@fixture` tags to control the browser usage. In a
-pure UI automation framework that *only* contains Selenium tests, it is probably redundant to be forced to include
-this type of tag everywhere, so you may instead modify `/features/environment.py` to just always use a browser fixture
-at the start of every scenario or feature.
+In this example framework, browser [fixtures](https://behave.readthedocs.io/en/latest/fixtures.html) are controlled
+via the `@fixture.browser` tag in your scenarios or features. In an automation framework where you may have a mixture
+of UI (Selenium browser) and non-UI (API / DB / etc.) tests, it probably makes sense to use this kind of mechanism of
+allowing `@fixture` tags to control the browser usage. In a pure UI automation framework that *only* contains Selenium
+tests, it is probably redundant to be forced to include this type of tag everywhere, so you may instead modify
+`/features/environment.py` to just always use a browser fixture at the start of every scenario or feature.
 
 #### Page Object Model and Element Locators
 Page Object Model (POM) is a design pattern for UI automation where you define classes/objects for key pages and
@@ -157,6 +142,8 @@ It's also a good practice to keep all of your locators (XPath, CSS selectors, et
 organized place, rather than strewn throughout the class. Each of the examples provided here show one way you can go
 about creating a simple subclass to contain the locator definitions underneath each page object class so that they
 can be referenced as needed.
+
+---
 
 Contrary to the name, page objects do not only have to be created for full pages. It is also useful to define page
 objects for individual elements or controls that exist within a page. Some examples are provided in
