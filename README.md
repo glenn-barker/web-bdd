@@ -1,17 +1,33 @@
 # web-bdd
 This is a simple framework / skeleton project / sample / blueprint / etc. for a web-based behavior-driven development
-(BDD) test automation framework in Python.
+(BDD) test automation framework in Python, powered by [behave](https://github.com/behave/behave),
+[Selenium](https://pypi.org/project/selenium/), and [requests](https://github.com/kennethreitz/requests).
 
-This is *not* a brand-new implementation of WebDriver or Gherkin. This still uses standard tools like `Selenium`
-and `behave` as dependencies for those purposes.
-
-Instead, this project represents how one might organize the numerous components (test cases, test steps, environment
-setup, page objects, element locators, explicit waits, etc.) that make up a web-based testing into a simple, easy to
-work with and easily extensible framework.
+Essentially this project demonstrates how one might structure and organize a framework that utilizes these libraries
+and deals with common design patterns and solutions, such as the layout of page objects and locators, dealing with
+explicit waits, and creating scalable CI-ready test automation.
 
 To provide some examples, this project demonstrates each of the above concepts in the context of providing some very
 simple web automation around Wikipedia, so you should be able to drill down to see how this Wikipedia automation is
 built and jump off from there to write your own web-bdd test automation for whatever platform you need.
+
+## Progress:
+Areas that have been covered so far:
+* Basic folder structure for BDD. (features / scenarios / step definition implementations)
+* Basic folder structure for POM. (pages, controls, and locators)
+* Setup / teardown hooks for instantiating Selenium browser instances using test fixtures.
+* Other misc. Selenium "quality of life" enhancements, such as managing explicit waits, expanded the "expected
+  conditions" library (search for elements by locator, returning only those that are actually visible), etc., all
+  provided in a wrapper class that every page object has access to.
+* Test settings (browser selection, etc.) using config file, with the option to override defaults provided in the
+  config by passing in cmd line args.
+* Demo of all of the above with some simple examples demonstrating working web automation with Wikipedia as the
+  application under test.
+
+Areas that are yet to be covered:
+* Parallel execution. (`behave-parallel` and Selenium Grid)
+* Demonstration of test results reporting. (Cucumber reports)
+* API testing examples using `requests`.
 
 ## Pre-requisites
 1. Python 3.7
