@@ -1,37 +1,29 @@
+import json
 from behave import fixture
 from behave.fixture import use_fixture_by_tag
-from selenium import webdriver
-import json
-from framework.selenium_helpers.selenium_wrapper import SeleniumWrapper
-
-
-@fixture
-def selenium_browser_chrome(context):
-    # -- FIXTURE SETUP
-    context.selenium = SeleniumWrapper(context, webdriver.Chrome())
-    yield context.selenium.driver
-    # -- FIXTURE CLEANUP
-    context.selenium.driver.quit()
+from features.fixtures import selenium_fixtures
 
 
 @fixture
 def selenium_browser(context):
+    # Using the `fixture.browser` fixture should do a lookup on the config and return an appropriate
+    # sub-fixture, e.g.: `fixture.browser.chrome`.
     browser = context.config.userdata.get("browser", "chrome").lower()
-
-    if browser == "chrome":
-        yield from selenium_browser_chrome(context)
-    elif browser == "firefox":
-        raise NotImplementedError("No Firefox support yet")
-    elif browser == "ie":
-        raise NotImplementedError("No IE support yet")
-    else:
-        raise ValueError(f"Browser option {browser} is invalid")
+    fixture_tag = f"fixture.browser.{browser}"
+    try:
+        yield use_fixture_by_tag(fixture_tag, context, fixture_registry)
+    except LookupError:
+        raise ValueError(f"Unsupported browser option: {browser}")
 
 
 fixture_registry = {
-    # Map each valid @fixture tag with the appropriate test fixture.
+    # Map each valid `@fixture` tag with the appropriate test fixture.
     "fixture.browser": selenium_browser,
-    "fixture.browser.chrome": selenium_browser_chrome,
+    "fixture.browser.chrome": selenium_fixtures.chrome,
+    "fixture.browser.edge": selenium_fixtures.edge,
+    "fixture.browser.firefox": selenium_fixtures.firefox,
+    "fixture.browser.ie": selenium_fixtures.ie,
+    "fixture.browser.safari": selenium_fixtures.safari,
 }
 
 
@@ -46,6 +38,6 @@ def before_all(context):
 
 
 def before_tag(context, tag):
-    # @fixture tags can be used to enable fixtures like web browsers and other resources required throughout the test.
+    # `@fixture` tags can be used to enable fixtures like web browsers and other resources required throughout the test.
     if tag.startswith("fixture."):
         return use_fixture_by_tag(tag, context, fixture_registry)

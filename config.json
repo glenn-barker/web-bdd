@@ -1,5 +1,6 @@
 {
   "browser":          "chrome",
+  "headless":         false,
   "element_timeout":  10,
   "page_timeout":     60
 }
