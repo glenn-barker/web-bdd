@@ -16,6 +16,8 @@ Areas that have been covered so far:
 * Basic folder structure for BDD. (features / scenarios / step definition implementations)
 * Basic folder structure for POM. (pages, controls, and locators)
 * Setup / teardown hooks for instantiating Selenium browser instances using test fixtures.
+* Cross-browser support with options tailored to each (e.g. optional headless execution for all browsers that support
+  it.)
 * Other misc. Selenium "quality of life" enhancements, such as managing explicit waits, expanded the "expected
   conditions" library (search for elements by locator, returning only those that are actually visible), etc., all
   provided in a wrapper class that every page object has access to.
@@ -23,10 +25,13 @@ Areas that have been covered so far:
   config by passing in cmd line args.
 * Demo of all of the above with some simple examples demonstrating working web automation with Wikipedia as the
   application under test.
+* Parallel execution. (See [Parallel Execution](https://github.com/glenn-barker/web-bdd/wiki/Parallel-Execution) on the
+  Wiki for info on setting this up.)
 
 Areas that are yet to be covered:
-* Parallel execution. (`behave-parallel` and Selenium Grid)
+* Remote execution. (Selenium Grid)
 * Demonstration of test results reporting. (Cucumber reports)
+* Logging info / warnings / errors during test execution.
 * API testing examples using `requests`.
 
 ## Pre-requisites
